@@ -25,8 +25,8 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = 707;
+    canvas.height = 808;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -80,21 +80,37 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        bugCollision();
     }
-
-    /* This is called by the update function and loops through all of the
+    /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
      * player object. These update methods should focus purely on updating
-     * the data/properties related to the object. Do your drawing in your
+     * the data/properties related to  the object. Do your drawing in your
      * render methods.
      */
+
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
         player.update();
+    }
+    //This function checks the collision for bug with the player
+    function bugCollision() {
+        for (var i = 0; i < allEnemies.length; i++) {
+            if(collide(player,allEnemies[i],40)) {
+                player.resetPosition();
+            }
+        }
+    }
+    //This function checks for collision during the game between any two entities
+    function collide(player,entity,theta) {
+        if ((entity.x >= (player.x - theta - 20)) && (entity.x <= (player.x + theta + 30))) {
+            if ((entity.y >= (player.y - theta + 20)) && (entity.y <= (player.y + theta - 15))) {
+                return true;
+            }
+        }
     }
 
     /* This function initially draws the "game level", it will then call
@@ -108,15 +124,17 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/water-block.png',  // Top row is water
+                'images/stone-block.png',  // Row 1vof stone
+                'images/stone-block.png',  // Row 2 of stone
+                'images/stone-block.png',  // Row 3 of stone
+                'images/stone-block.png',  // Row 4 of stone
+                'images/grass-block.png',
+                'images/grass-block.png',
+                'images/grass-block.png'
             ],
-            numRows = 6,
-            numCols = 5,
+            numRows = 8,
+            numCols = 7,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
