@@ -83,7 +83,7 @@ var Engine = (function(global) {
         bugCollision();
     }
     /* This is called by the update function  and loops through all of the
-     * objects within your allEnemies array as defined in app.js and calls
+     * objects within your allEnemies arr`ay as defined in app.js and calls
      * their update() methods. It will then call the update function for your
      * player object. These update methods should focus purely on updating
      * the data/properties related to  the object. Do your drawing in your
@@ -95,12 +95,16 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        secondPlayer.update();
     }
     //This function checks the collision for bug with the player
     function bugCollision() {
         for (var i = 0; i < allEnemies.length; i++) {
             if(collide(player,allEnemies[i],40)) {
                 player.resetPosition();
+            }
+            if(collide(secondPlayer,allEnemies[i],40)) {
+                secondPlayer.resetPosition();
             }
         }
     }
@@ -124,12 +128,12 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',  // Top row is water
-                'images/stone-block.png',  // Row 1vof stone
-                'images/stone-block.png',  // Row 2 of stone
-                'images/stone-block.png',  // Row 3 of stone
-                'images/stone-block.png',  // Row 4 of stone
+                'images/water-block.png',
+                'images/stone-block.png',
                 'images/grass-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
+                'images/stone-block.png',
                 'images/grass-block.png',
                 'images/grass-block.png'
             ],
@@ -170,6 +174,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        secondPlayer.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -189,7 +194,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png'
     ]);
     Resources.onReady(init);
 
